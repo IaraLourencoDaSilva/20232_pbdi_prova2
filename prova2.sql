@@ -1,4 +1,16 @@
 --Prova 2
+
+--Testando
+SELECT * FROM tb_log;
+
+--4 Tabeladelog--
+CREATE TABLE tb_log(
+	cod_youtuber SERIAL PRIMARY KEY,
+	nome_youtuber VARCHAR(30),
+	categoria_canal VARCHAR (30),
+	ano_inicio INT
+);
+
 --3 Altertable--
 ALTER TABLE tb_youtube ADD COLUMN ativo INT DEFAULT 1 CHECK (ativo IN (0, 1));
 
