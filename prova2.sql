@@ -1,5 +1,27 @@
 --Prova 2
 
+--5Trigger--
+CREATE TRIGGER tg_antes_delete
+BEFORE DELETE ON tb_log
+FOR EACH ROW
+EXECUTE FUNCTION fn_delete_youtuber();
+
+CREATE OR REPLACE FUNCTION fn_delete_youtuber()
+RETURNS TRIGGER
+LANGUAGE plpgsql AS $$
+BEGIN
+    IF OLD.ativo = 1 THEN
+        INSERT INTO tb_youtube_logs (cod_youtuber, nome_youtuber, categoria_canal, ano_inicio, ativo)
+        VALUES (OLD.cod_youtuber, OLD.nome_youtuber, OLD.categoria_canal, OLD.ano_inicio, 0);
+		
+        UPDATE youtuber SET ativo = 0 WHERE cod_youtuber = OLD.cod_youtuber;
+        RAISE EXCEPTION 'Operação DELETE não permitida. Registro ativo registrado na tabela de logs.';
+    ELSE
+        RETURN OLD;
+    END IF;
+END;
+$$;
+
 --Testando
 SELECT * FROM tb_log;
 
