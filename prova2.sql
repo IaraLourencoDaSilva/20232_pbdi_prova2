@@ -1,4 +1,7 @@
 --Prova 2
+--3 Altertable--
+ALTER TABLE tb_youtube ADD COLUMN ativo INT DEFAULT 1 CHECK (ativo IN (0, 1));
+
 --2 Trigger--
 CREATE OR REPLACE TRIGGER tg_antes_insert_update
 BEFORE INSERT OR UPDATE ON tb_youtube
